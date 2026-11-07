@@ -98,6 +98,13 @@ html.js .reveal[data-reveal="mask"] {
     opacity 500ms ease,
     clip-path 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
+/* Anchor targets, and reveals wrapping one, fade in without moving, so a
+   hash jump lands exactly under the sticky header instead of 18px high
+   once the reveal settles. */
+html.js .reveal[id],
+html.js .reveal:has(> [id]) {
+  transform: none;
+}
 html.js .reveal.is-visible,
 html.js .reveal[data-reveal].is-visible {
   opacity: 1;

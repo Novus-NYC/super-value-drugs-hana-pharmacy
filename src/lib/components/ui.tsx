@@ -28,7 +28,7 @@ export function Eyebrow({
   tone?: "green" | "orange" | "cream";
 }) {
   const color =
-    tone === "orange" ? "text-orange" : tone === "cream" ? "text-teal-light" : "text-green-700";
+    tone === "orange" ? "text-orange-text" : tone === "cream" ? "text-teal-light" : "text-green-700";
   return (
     <p
       className={[
@@ -50,10 +50,10 @@ const buttonBase =
   "inline-flex min-h-[3.25rem] items-center justify-center gap-2.5 rounded-md px-6 text-lg font-semibold leading-none transition-colors duration-200";
 
 const buttonTones: Record<ButtonTone, string> = {
-  primary: "bg-orange text-white hover:bg-orange-deep",
+  primary: "bg-orange-deep text-white hover:bg-orange-hover",
   secondary:
     "border-2 border-green-900 bg-transparent text-green-900 hover:bg-green-900 hover:text-white",
-  onDark: "bg-orange text-white hover:bg-orange-deep",
+  onDark: "bg-orange-deep text-white hover:bg-orange-hover",
   onDarkSecondary:
     "border-2 border-teal-light/70 bg-transparent text-white hover:bg-white hover:text-green-900",
 };
@@ -95,7 +95,7 @@ export function ButtonLink({
   }
   if (href.startsWith("tel:")) {
     return (
-      <a href={href} className={classes}>
+      <a href={href} className={`${classes} whitespace-nowrap`}>
         {glyph}
         <span className="tnum">{children}</span>
       </a>
@@ -122,7 +122,7 @@ export function ConfirmBadge({
   const styles =
     tone === "dark"
       ? "border-teal-light/50 text-teal-light"
-      : "border-orange/50 bg-orange-soft text-orange-deep";
+      : "border-orange/50 bg-orange-soft text-orange-text";
   return (
     <span
       className={[
@@ -144,11 +144,14 @@ export function HoursTable({
   t,
   lang,
   tone = "light",
+  compact = false,
   className,
 }: {
   t: Dictionary;
   lang: Lang;
   tone?: "light" | "dark";
+  /** Short day labels ("Mon to Fri") for narrow columns such as the footer. */
+  compact?: boolean;
   className?: string;
 }) {
   const divide = tone === "dark" ? "divide-white/15" : "divide-line";
@@ -162,11 +165,11 @@ export function HoursTable({
           return (
             <tr key={row.days.en}>
               <th scope="row" className="py-3 pr-4 align-top font-medium">
-                {row.days[lang]}
+                {compact ? row.daysShort[lang] : row.days[lang]}
               </th>
               <td
                 className={[
-                  "py-3 text-right align-top tnum",
+                  "whitespace-nowrap py-3 text-right align-top tnum",
                   closed ? muted : "font-semibold",
                 ].join(" ")}
               >

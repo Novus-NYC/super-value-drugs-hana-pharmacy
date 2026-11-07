@@ -25,7 +25,7 @@ export default function SiteFooter({ lang, t }: SiteFooterProps) {
       <div className="rule-awning h-1.5" aria-hidden="true" />
       <div className="mx-auto w-full max-w-site px-5 py-14 sm:px-8">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-12">
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-3">
             <div className="flex items-center gap-3">
               <MortarMark className="h-12 w-12" />
               <div className="leading-tight">
@@ -61,12 +61,14 @@ export default function SiteFooter({ lang, t }: SiteFooterProps) {
             ) : null}
           </div>
 
-          <div className="lg:col-span-3">
-            <h2 className="flex flex-wrap items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-teal-light">
-              {t.footer.hoursTitle}
+          <div className="lg:col-span-4">
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-teal-light">
+                {t.footer.hoursTitle}
+              </h2>
               {!site.hours.confirmed ? <ConfirmBadge t={t} tone="dark" /> : null}
-            </h2>
-            <HoursTable t={t} lang={lang} tone="dark" className="mt-2 text-base" />
+            </div>
+            <HoursTable t={t} lang={lang} tone="dark" compact className="mt-2 text-base" />
           </div>
 
           <div className="lg:col-span-2">

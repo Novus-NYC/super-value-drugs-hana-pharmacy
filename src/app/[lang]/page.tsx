@@ -37,26 +37,28 @@ export default async function HomePage({ params }: { params: LangParams }) {
     <>
       <PharmacyJsonLd lang={lang} />
 
-      {/* Hero: type on the left, the storefront standing tall on the right. */}
+      {/* Hero: type on the left, the storefront standing tall on the right.
+          On phones the awning comes first, as a short wide crop, so the
+          photo, the name and the Call button share the first screen. */}
       <section className="border-b border-line">
         <Container>
-          <div className="grid gap-10 py-10 md:grid-cols-12 md:items-center md:gap-8 md:py-14 lg:gap-12 lg:py-20">
+          <div className="grid gap-8 py-8 md:grid-cols-12 md:items-center md:gap-8 md:py-14 lg:gap-12 lg:py-20">
             <div className="md:col-span-6 lg:col-span-6">
               <Eyebrow>{t.home.eyebrow}</Eyebrow>
               <h1 className="mt-5 tracking-tight">
                 {lang === "ko" ? (
                   <>
-                    <span className="block font-ko text-5xl font-bold text-green-900 sm:text-6xl md:text-5xl lg:text-6xl">
+                    <span className="block font-ko text-4xl font-bold text-green-900 sm:text-5xl lg:text-6xl">
                       {site.koreanName}
                     </span>
-                    <span className="mt-2 block font-sans text-3xl font-bold text-orange sm:text-4xl" lang="en">
+                    <span className="mt-2 block font-sans text-2xl font-bold text-orange sm:text-3xl lg:text-4xl" lang="en">
                       {site.name}
                     </span>
                   </>
                 ) : (
                   <>
-                    <span className="block text-5xl font-bold text-green-900 sm:text-6xl md:text-5xl lg:text-6xl">{site.name}</span>
-                    <span className="mt-2 block font-ko text-4xl font-bold text-orange sm:text-5xl md:text-4xl lg:text-5xl" lang="ko">
+                    <span className="block text-4xl font-bold text-green-900 sm:text-5xl lg:text-6xl">{site.name}</span>
+                    <span className="mt-2 block font-ko text-3xl font-bold text-orange sm:text-4xl lg:text-5xl" lang="ko">
                       {site.koreanName}
                     </span>
                   </>
@@ -71,28 +73,22 @@ export default async function HomePage({ params }: { params: LangParams }) {
                   {t.nav.directions}
                 </ButtonLink>
               </div>
-              <p className="mt-7 flex items-start gap-2.5 text-base text-muted">
-                <PinIcon className="mt-1 h-5 w-5 shrink-0 text-green-700" />
-                <span>
-                  {site.address.street}, {site.address.city}. {site.landmark[lang]}.
-                </span>
-              </p>
             </div>
 
-            <figure className="md:col-span-6 lg:col-span-6">
+            <figure className="order-first md:order-none md:col-span-6 lg:col-span-6">
               <div className="relative">
                 <div
                   aria-hidden="true"
                   className="absolute -left-3 -top-3 h-full w-full rounded-md bg-green-100 sm:-left-5 sm:-top-5"
                 />
-                <div className="relative aspect-[4/3] overflow-hidden rounded-md md:aspect-[5/6]">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-md md:aspect-[5/6]">
                   <Image
                     src={storefront.src}
                     alt={storefront.alt[lang]}
                     fill
                     priority
                     sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw"
-                    className="object-cover object-[50%_88%] md:object-[50%_62%]"
+                    className="object-cover object-[50%_70%] md:object-[50%_62%]"
                   />
                 </div>
               </div>
@@ -133,15 +129,19 @@ export default async function HomePage({ params }: { params: LangParams }) {
                     <ServiceGlyph icon={service.icon} className="h-7 w-7" />
                   </span>
                   <div>
-                    <h3 className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xl font-bold">
-                      <Link
-                        href={`${localePath(lang, "/services")}#${service.id}`}
-                        className="rounded-sm hover:text-teal-light"
-                      >
-                        {service.name[lang]}
-                      </Link>
+                    {/* The badge sits beside the heading, not inside it, so
+                        heading navigation reads the service name alone. */}
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                      <h3 className="text-xl font-bold">
+                        <Link
+                          href={`${localePath(lang, "/services")}#${service.id}`}
+                          className="rounded-sm hover:text-teal-light"
+                        >
+                          {service.name[lang]}
+                        </Link>
+                      </h3>
                       {!service.confirmed ? <ConfirmBadge t={t} tone="dark" /> : null}
-                    </h3>
+                    </div>
                     <p className="mt-1 text-base text-white/80">{service.short[lang]}</p>
                   </div>
                 </div>
@@ -164,11 +164,13 @@ export default async function HomePage({ params }: { params: LangParams }) {
         <Container>
           <div className="grid lg:grid-cols-2">
             <Reveal className="py-14 sm:py-16 lg:border-r lg:border-line lg:pr-12">
-              <h2 className="flex flex-wrap items-center gap-3 text-3xl font-bold tracking-tight text-green-900">
-                <ClockIcon className="h-8 w-8 text-orange" />
-                {t.home.hoursTitle}
+              <div className="flex flex-wrap items-center gap-3">
+                <h2 className="flex items-center gap-3 text-3xl font-bold tracking-tight text-green-900">
+                  <ClockIcon className="h-8 w-8 text-orange" />
+                  {t.home.hoursTitle}
+                </h2>
                 {!site.hours.confirmed ? <ConfirmBadge t={t} /> : null}
-              </h2>
+              </div>
               <HoursTable t={t} lang={lang} className="mt-6 text-lg" />
               {!site.hours.confirmed ? (
                 <p className="mt-5 text-base text-muted">{t.confirm.hoursNote}</p>
@@ -240,7 +242,7 @@ export default async function HomePage({ params }: { params: LangParams }) {
             <div className="md:col-span-5 md:justify-self-end">
               <a
                 href={`tel:${site.phone.tel}`}
-                className="inline-flex min-h-[4rem] items-center gap-3 rounded-md bg-orange px-7 text-2xl font-bold text-white tnum hover:bg-orange-deep sm:text-3xl"
+                className="inline-flex min-h-[4rem] items-center gap-3 whitespace-nowrap rounded-md bg-orange-deep px-7 text-2xl font-bold text-white tnum hover:bg-orange-hover lg:text-3xl"
               >
                 {site.phone.display}
               </a>

@@ -81,15 +81,21 @@ export default async function AboutPage({ params }: { params: LangParams }) {
                   {t.about.storyAttributionLink}
                   <ExternalIcon className="h-4 w-4" />
                 </a>
-                {lang === "ko" ? "" : ", "}
-                {t.about.storyAttributionTail}
+                {/* The link ends the clause in Korean, so the tail is empty there. */}
+                {t.about.storyAttributionTail ? `, ${t.about.storyAttributionTail}` : null}
               </p>
             </Reveal>
 
             <div className="md:col-span-4 md:col-start-9">
               <dl className="grid gap-8 sm:grid-cols-3 md:grid-cols-1">
                 {numbers.map((item, index) => (
-                  <Reveal as="div" key={item.label} delay={index * 100} className="border-t-2 border-green-900 pt-4">
+                  <Reveal
+                    as="div"
+                    key={item.label}
+                    delay={index * 100}
+                    className="flex flex-col border-t-2 border-green-900 pt-4"
+                  >
+                    {/* dt stays before dd in the DOM (valid dl); the flex order shows the figure first. */}
                     <dt className="text-sm text-muted">{item.label}</dt>
                     <dd className="order-first text-5xl font-bold tracking-tight text-orange tnum">
                       {item.value}
@@ -113,10 +119,7 @@ export default async function AboutPage({ params }: { params: LangParams }) {
               {site.owner ? (
                 <div className="border-t border-white/20 pt-4">
                   <dt className="text-base text-teal-light">{t.about.factOwner}</dt>
-                  <dd className="mt-1 text-xl font-bold">
-                    {site.owner.name}
-                    <span className="block text-base font-medium text-white/80">{site.owner.role[lang]}</span>
-                  </dd>
+                  <dd className="mt-1 text-xl font-bold">{site.owner.name}</dd>
                 </div>
               ) : null}
               {site.established ? (

@@ -39,7 +39,7 @@ export default async function RootLayout({
   const { lang, t } = await resolveLang(params);
 
   return (
-    <html lang={lang} suppressHydrationWarning>
+    <html lang={lang} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         {/* Marks that JavaScript is running before first paint, so scroll
             reveals only hide content when they can also show it again. */}
@@ -50,7 +50,7 @@ export default async function RootLayout({
       <body className="flex min-h-screen flex-col">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-orange focus:px-4 focus:py-3 focus:font-semibold focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-orange-deep focus:px-4 focus:py-3 focus:font-semibold focus:text-white"
         >
           {t.skipToContent}
         </a>

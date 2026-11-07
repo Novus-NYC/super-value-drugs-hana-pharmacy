@@ -15,11 +15,21 @@ const nextConfig: NextConfig = {
     // Serve src/app/global-not-found.tsx as a fully static 404 document
     // (server-rendered, works without JavaScript) for any unmatched URL.
     globalNotFound: true,
+    // Match redirect and rewrite sources case-sensitively. Without this the
+    // uppercase redirects below would also match /ko and /en and loop, and
+    // /KO would skip the rewrite lookahead and reach the [lang] segment.
+    caseSensitiveRoutes: true,
   },
   async redirects() {
     return [
       { source: "/en", destination: "/", permanent: true },
       { source: "/en/:path*", destination: "/:path*", permanent: true },
+      // Any non-lowercase spelling of the language prefix goes to the
+      // lowercase URL (308), so /KO and /En/about never reach the app tree.
+      { source: "/:lang(KO|Ko|kO)", destination: "/ko", permanent: true },
+      { source: "/:lang(KO|Ko|kO)/:path*", destination: "/ko/:path*", permanent: true },
+      { source: "/:lang(EN|En|eN)", destination: "/", permanent: true },
+      { source: "/:lang(EN|En|eN)/:path*", destination: "/:path*", permanent: true },
     ];
   },
   async rewrites() {

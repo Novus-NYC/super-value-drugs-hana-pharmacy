@@ -28,8 +28,10 @@ export default async function ServicesPage({ params }: { params: LangParams }) {
       {/* Header: type on the left, the window-poster list on the right. */}
       <section className="border-b border-line">
         <Container>
-          <div className="grid gap-10 py-12 md:grid-cols-12 md:gap-8 md:py-16 lg:py-20">
-            <div className="md:col-span-6">
+          {/* The poster box sits full width under the intro until lg; at 768 a
+              5-column box wraps every uppercase bar onto two or three lines. */}
+          <div className="grid gap-10 py-12 md:py-16 lg:grid-cols-12 lg:gap-8 lg:py-20">
+            <div className="lg:col-span-6">
               <Eyebrow>{t.services.eyebrow}</Eyebrow>
               <h1 className="mt-4 text-4xl font-bold tracking-tight text-green-900 sm:text-5xl">
                 {t.services.title}
@@ -39,9 +41,9 @@ export default async function ServicesPage({ params }: { params: LangParams }) {
                 {t.nav.callFull}
               </ButtonLink>
             </div>
-            <Reveal variant="left" className="md:col-span-5 md:col-start-8">
+            <Reveal variant="left" className="lg:col-span-5 lg:col-start-8">
               <nav aria-label={t.nav.services} className="rounded-md border-2 border-green-900 bg-surface p-5 sm:p-6">
-                <p className="text-sm font-semibold uppercase tracking-[0.14em] text-orange">
+                <p className="text-sm font-semibold uppercase tracking-[0.14em] text-orange-text">
                   {site.name} {t.services.eyebrow}
                 </p>
                 <ol className="mt-4 space-y-2">
@@ -76,7 +78,7 @@ export default async function ServicesPage({ params }: { params: LangParams }) {
                       <ServiceGlyph icon={service.icon} className="h-8 w-8" />
                     </span>
                     <div>
-                      <p className="text-sm font-semibold uppercase tracking-[0.14em] text-orange tnum">
+                      <p className="text-sm font-semibold uppercase tracking-[0.14em] text-orange-text tnum">
                         {index + 1}
                       </p>
                       <h2 className="mt-1 text-2xl font-bold tracking-tight text-green-900 sm:text-3xl">

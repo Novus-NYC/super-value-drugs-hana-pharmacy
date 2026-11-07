@@ -33,9 +33,16 @@ const config: Config = {
           DEFAULT: "#2DB38E",
           light: "#8FDCC3",
         },
+        // Orange roles (WCAG ratios in BUILD_NOTES.md):
+        // DEFAULT is the awning orange for large display text and shapes only;
+        // deep is the filled-button background under white text (5.08:1);
+        // hover is its hover state; text is the orange for small text on
+        // canvas, cream-deep, white and orange-soft (at least 5.08:1).
         orange: {
           DEFAULT: "#E8541E",
           deep: "#C4420F",
+          hover: "#9E3509",
+          text: "#A8380C",
           soft: "#FBE7DC",
         },
         ink: "#15211B",

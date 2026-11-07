@@ -85,11 +85,13 @@ export default async function ContactPage({ params }: { params: LangParams }) {
             </div>
 
             <Reveal className="border-t border-line py-14 sm:py-16 lg:col-span-5 lg:border-t-0 lg:pl-12" delay={120}>
-              <h2 className="flex flex-wrap items-center gap-3 text-sm font-semibold uppercase tracking-[0.14em] text-green-700">
-                <ClockIcon className="h-5 w-5 text-orange" />
-                {t.contact.hoursTitle}
+              <div className="flex flex-wrap items-center gap-3">
+                <h2 className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.14em] text-green-700">
+                  <ClockIcon className="h-5 w-5 text-orange" />
+                  {t.contact.hoursTitle}
+                </h2>
                 {!site.hours.confirmed ? <ConfirmBadge t={t} /> : null}
-              </h2>
+              </div>
               <HoursTable t={t} lang={lang} className="mt-4 text-lg" />
               {!site.hours.confirmed ? (
                 <p className="mt-5 text-base text-muted">{t.confirm.hoursNote}</p>
@@ -115,7 +117,7 @@ export default async function ContactPage({ params }: { params: LangParams }) {
               </div>
               <figcaption className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-base text-muted">
                 <span className="font-semibold text-green-900">{site.name}</span>
-                <span lang="ko" className="font-ko font-semibold text-orange">
+                <span lang="ko" className="font-ko font-semibold text-orange-text">
                   {site.koreanName}
                 </span>
                 <span>{site.landmark[lang]}</span>

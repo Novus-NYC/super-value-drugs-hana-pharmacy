@@ -36,13 +36,14 @@ export default function LangSwitch({
     <Link
       href={alternatePath(pathname, lang)}
       hrefLang={other}
-      lang={other}
       aria-label={ariaLabel}
       className={className}
       onClick={onNavigate}
     >
       {showIcon ? <GlobeIcon className="h-5 w-5 shrink-0" /> : null}
-      <span>{label}</span>
+      {/* Only the visible label is in the other language; the accessible
+          name (aria-label) stays in the page language on the link itself. */}
+      <span lang={other}>{label}</span>
     </Link>
   );
 }

@@ -15,11 +15,21 @@ interface SiteHeaderProps {
 
 const DESKTOP_QUERY = "(min-width: 1024px)";
 
+/** Everything outside the menu panel that must not take focus while it is open. */
+const INERT_SELECTOR = "header, main, footer, [data-callbar]";
+
+function setPageInert(on: boolean) {
+  document.querySelectorAll<HTMLElement>(INERT_SELECTOR).forEach((el) => {
+    el.inert = on;
+  });
+}
+
 /**
  * Sticky header plus the mobile menu panel. The panel is rendered as a
  * sibling of the <header>, never inside it, and the header never carries
  * backdrop-filter, filter or transform, so the fixed panel is positioned
- * against the viewport.
+ * against the viewport. While the panel is open the rest of the page is
+ * inert, so Tab cannot leave the dialog.
  */
 export default function SiteHeader({ lang, t }: SiteHeaderProps) {
   const [scrolled, setScrolled] = useState(false);
@@ -44,6 +54,9 @@ export default function SiteHeader({ lang, t }: SiteHeaderProps) {
 
   const close = useCallback((returnFocus = true) => {
     setOpen(false);
+    // The header is inert while the panel is open; lift that before focusing
+    // the toggle, since an inert element cannot receive focus.
+    setPageInert(false);
     if (returnFocus) toggleRef.current?.focus();
   }, []);
 
@@ -53,6 +66,7 @@ export default function SiteHeader({ lang, t }: SiteHeaderProps) {
       return;
     }
     document.body.style.overflow = "hidden";
+    setPageInert(true);
     closeRef.current?.focus();
 
     const onKey = (event: KeyboardEvent) => {
@@ -71,6 +85,7 @@ export default function SiteHeader({ lang, t }: SiteHeaderProps) {
       document.removeEventListener("keydown", onKey);
       media.removeEventListener("change", onMedia);
       document.body.style.overflow = "";
+      setPageInert(false);
     };
   }, [open, close]);
 
@@ -115,7 +130,7 @@ export default function SiteHeader({ lang, t }: SiteHeaderProps) {
             />
             <a
               href={`tel:${site.phone.tel}`}
-              className="ml-3 inline-flex min-h-[2.75rem] items-center gap-2 rounded-md bg-orange px-4 text-base font-semibold text-white hover:bg-orange-deep"
+              className="ml-3 inline-flex min-h-[2.75rem] items-center gap-2 whitespace-nowrap rounded-md bg-orange-deep px-4 text-base font-semibold text-white hover:bg-orange-hover"
             >
               <PhoneIcon className="h-5 w-5" />
               <span className="tnum">{site.phone.display}</span>
@@ -125,7 +140,7 @@ export default function SiteHeader({ lang, t }: SiteHeaderProps) {
           <div className="flex items-center gap-2 lg:hidden">
             <a
               href={`tel:${site.phone.tel}`}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-orange text-white hover:bg-orange-deep"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-orange-deep text-white hover:bg-orange-hover"
               aria-label={t.nav.callFull}
             >
               <PhoneIcon className="h-6 w-6" />
@@ -204,7 +219,7 @@ export default function SiteHeader({ lang, t }: SiteHeaderProps) {
           <div className="mt-8 flex flex-col gap-3">
             <a
               href={`tel:${site.phone.tel}`}
-              className="inline-flex min-h-[3.5rem] items-center justify-center gap-3 rounded-md bg-orange px-6 text-xl font-bold text-white"
+              className="inline-flex min-h-[3.5rem] items-center justify-center gap-3 whitespace-nowrap rounded-md bg-orange-deep px-6 text-xl font-bold text-white hover:bg-orange-hover"
             >
               <PhoneIcon className="h-6 w-6" />
               <span className="tnum">{t.nav.callFull}</span>

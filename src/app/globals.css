@@ -2,11 +2,172 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
-  padding: 0;
+:root {
+  --header-h: 4.5rem;
+  --callbar-h: 4.75rem;
+  --font-latin: "Source Sans 3 Variable", system-ui, sans-serif;
+  --font-korean: "Noto Sans KR Variable", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* One anchor offset for the whole site: the sticky header height. */
+  scroll-padding-top: var(--header-h);
+  -webkit-text-size-adjust: 100%;
+}
+
+html,
+body {
   margin: 0;
+  padding: 0;
 }
 
 * {
   box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-latin), var(--font-korean);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  color: theme("colors.ink");
+  background-color: theme("colors.canvas");
+  font-variation-settings: "wght" 400;
+  font-feature-settings: "kern", "liga";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Korean pages lead with the Korean face so Hangul headings are set in it. */
+html[lang="ko"] body {
+  font-family: var(--font-korean), var(--font-latin);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* Any Hangul inside an English page still renders in the Korean face. */
+:lang(ko) {
+  font-family: var(--font-korean), var(--font-latin);
+  word-break: keep-all;
+}
+
+/* Large tabular numerals for phone numbers and hours. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reserve room for the mobile call bar. */
+body {
+  padding-bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom, 0px));
+}
+@media (min-width: 1024px) {
+  body {
+    padding-bottom: 0;
+  }
+}
+
+/* Visible focus everywhere, in brand colors. */
+:focus-visible {
+  outline: 3px solid theme("colors.orange.DEFAULT");
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+.bg-green-900 :focus-visible,
+.bg-green-950 :focus-visible {
+  outline-color: theme("colors.teal.light");
+}
+
+/* Scroll reveals. Hidden state only when JavaScript is running. */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+html.js .reveal[data-reveal="scale"] {
+  transform: scale(0.97);
+}
+html.js .reveal[data-reveal="left"] {
+  transform: translateX(-20px);
+}
+html.js .reveal[data-reveal="mask"] {
+  transform: none;
+  clip-path: inset(0 0 100% 0);
+  transition:
+    opacity 500ms ease,
+    clip-path 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+html.js .reveal.is-visible,
+html.js .reveal[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  html.js .reveal,
+  html.js .reveal[data-reveal] {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+}
+
+@media print {
+  html.js .reveal,
+  html.js .reveal[data-reveal] {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+  .print-hidden {
+    display: none !important;
+  }
+}
+
+/* Header surface change once content scrolls underneath. */
+.site-header {
+  transition:
+    background-color 250ms ease,
+    box-shadow 250ms ease,
+    border-color 250ms ease;
+}
+.site-header.is-scrolled {
+  box-shadow: 0 1px 0 theme("colors.line"), 0 8px 24px -16px rgba(9, 50, 38, 0.35);
+}
+
+/* Mobile menu panel transitions (class-toggled, never the hidden attribute). */
+.menu-panel {
+  transition:
+    opacity 250ms ease,
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 300ms;
+}
+.menu-panel.is-open {
+  transition:
+    opacity 250ms ease,
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-panel,
+  .menu-panel.is-open,
+  .site-header {
+    transition: none;
+  }
+}
+
+/* A hairline rule motif borrowed from the awning edge. */
+.rule-awning {
+  background-image: linear-gradient(
+    90deg,
+    theme("colors.green.900") 0 70%,
+    theme("colors.orange.DEFAULT") 70% 85%,
+    theme("colors.teal.DEFAULT") 85% 100%
+  );
 }

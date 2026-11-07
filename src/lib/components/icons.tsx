@@ -133,15 +133,6 @@ function NotaryIcon({ className }: IconProps) {
   );
 }
 
-function MetroCardIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...base}>
-      <rect x="3" y="6" width="18" height="12" rx="2" />
-      <path d="M3 10h18M7 14.5h4" />
-    </svg>
-  );
-}
-
 function EyeIcon({ className }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...base}>
@@ -173,8 +164,6 @@ export function ServiceGlyph({ icon, className }: { icon: ServiceIcon; className
       return <FaxIcon className={className} />;
     case "notary":
       return <NotaryIcon className={className} />;
-    case "metrocard":
-      return <MetroCardIcon className={className} />;
     case "eye":
       return <EyeIcon className={className} />;
     case "vaccine":

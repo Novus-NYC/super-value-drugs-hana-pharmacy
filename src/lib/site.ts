@@ -20,6 +20,8 @@ export const siteUrl =
 export interface HoursRow {
   /** Day label in both languages. */
   days: Localized;
+  /** Short day label for narrow places such as the footer. */
+  daysShort: Localized;
   /** Opening time, 24 hour "HH:MM", or null when closed. */
   open: string | null;
   /** Closing time, 24 hour "HH:MM", or null when closed. */
@@ -43,7 +45,11 @@ export interface SiteConfig {
   owner: { name: string; role: Localized } | null;
   established: number | null;
   address: {
+    /** "29-26 Union Street": number and name joined. */
     street: string;
+    /** The Queens-style house number alone, for Korean copy ("유니온 스트리트 29-26"). */
+    streetNumber: string;
+    streetName: string;
     city: string;
     state: string;
     zip: string;
@@ -67,7 +73,9 @@ export interface SiteConfig {
   };
 }
 
-const streetAddress = "29-26 Union Street";
+const streetNumber = "29-26";
+const streetName = "Union Street";
+const streetAddress = `${streetNumber} ${streetName}`;
 const cityLine = "Flushing, NY 11354";
 
 export const site: SiteConfig = {
@@ -83,6 +91,8 @@ export const site: SiteConfig = {
   established: 2001,
   address: {
     street: streetAddress,
+    streetNumber,
+    streetName,
     city: "Flushing",
     state: "NY",
     zip: "11354",
@@ -106,18 +116,21 @@ export const site: SiteConfig = {
     rows: [
       {
         days: { en: "Monday to Friday", ko: "월요일 ~ 금요일" },
+        daysShort: { en: "Mon to Fri", ko: "월~금" },
         open: "08:30",
         close: "19:00",
         weekdays: [1, 2, 3, 4, 5],
       },
       {
         days: { en: "Saturday", ko: "토요일" },
+        daysShort: { en: "Sat", ko: "토" },
         open: "08:30",
         close: "18:00",
         weekdays: [6],
       },
       {
         days: { en: "Sunday and holidays", ko: "일요일 및 공휴일" },
+        daysShort: { en: "Sun and holidays", ko: "일, 공휴일" },
         open: null,
         close: null,
         weekdays: [0],

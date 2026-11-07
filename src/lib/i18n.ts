@@ -1,11 +1,21 @@
-import type { Lang } from "./site";
+import { fullAddress, site, type Lang } from "./site";
 
 /**
  * Every visible string on the site. The English object defines the shape and
  * the Korean object must provide every key (checked by the Dictionary type).
  * Korean copy uses the polite formal register (합니다체) for body text and
  * concise noun phrases for labels.
+ *
+ * Business facts (phone, fax, address, year) are interpolated from site.ts so
+ * a change there updates every label and meta description.
  */
+const phone = site.phone.display;
+const street = site.address.street;
+const streetNumber = site.address.streetNumber;
+const since = site.established;
+const faxEn = site.fax ? `, fax ${site.fax.display}` : "";
+const faxKo = site.fax ? `, 팩스 ${site.fax.display}` : "";
+
 const en = {
   langName: "English",
   otherLangLabel: "한국어",
@@ -17,7 +27,7 @@ const en = {
     about: "About",
     contact: "Find us",
     call: "Call",
-    callFull: "Call (718) 359-3373",
+    callFull: `Call ${phone}`,
     menuOpen: "Open menu",
     menuClose: "Close menu",
     menuTitle: "Menu",
@@ -31,10 +41,9 @@ const en = {
   confirm: {
     badge: "To be confirmed",
     badgeAria: "To be confirmed with the pharmacy",
-    hoursNote:
-      "Hours are taken from the storefront sign and are being confirmed with the pharmacy. Please call before a special trip.",
+    hoursNote: "Hours are taken from our storefront sign. Please call before a special trip.",
     servicesNote:
-      "These services are listed on the pharmacy's own window and are being confirmed with the owner. Call to check availability before you come in.",
+      "These services are posted on our window. Please call to check availability before you come in for a specific service.",
   },
   hours: {
     title: "Hours",
@@ -43,19 +52,18 @@ const en = {
   },
   home: {
     metaTitle: "Super Value Drugs | Hana Pharmacy 하나약국, Flushing NY",
-    metaDescription:
-      "Independent community pharmacy at 29-26 Union Street, Flushing, Queens, at the H Mart parking lot entrance. Prescriptions, advice and everyday health needs in English and Korean. Call (718) 359-3373.",
-    eyebrow: "Flushing, Queens · Union Street · Since 2001",
+    metaDescription: `Independent community pharmacy at ${street}, ${site.address.city}, ${site.address.borough}, at the H Mart parking lot entrance. Prescriptions, advice and everyday health needs in English and Korean. Call ${phone}.`,
+    eyebrow: `Flushing, Queens · Union Street${since ? ` · Since ${since}` : ""}`,
     lead: "An independent pharmacy at the corner of the H Mart parking lot entrance on Union Street. Prescriptions, honest advice and everyday health needs, in English and Korean.",
-    photoCaption: "29-26 Union Street, Flushing",
+    photoCaption: `${street}, ${site.address.city}`,
     servicesTitle: "What we can help with",
     servicesIntro:
-      "A pharmacy that still does the small things: delivery, a quick blood pressure reading, a notary stamp, a MetroCard with your prescription.",
+      "A pharmacy that still does the small things: delivery, a quick blood pressure reading, a notary stamp, a copy or a fax.",
     servicesLink: "See all services",
     hoursTitle: "Hours",
     findTitle: "Find us",
     findLead: "Look for the green awning next to H Mart.",
-    storyEyebrow: "Since 2001",
+    storyEyebrow: since ? `Since ${since}` : "Our story",
     storyTitle: "A pharmacy built on a promise",
     storyText:
       "In 2001, Myeongha Jo took over an older pharmacy at this corner with borrowed money and a great deal of trust, and paid every loan back within five years. More than two decades later the pharmacy is still independent, still bilingual, and still here.",
@@ -66,11 +74,10 @@ const en = {
   },
   services: {
     metaTitle: "Services | Super Value Drugs, Hana Pharmacy Flushing",
-    metaDescription:
-      "Free delivery, free consultation, blood pressure checks, fast prescriptions, copy and fax, notary public, MetroCard and DMV vision test at Super Value Drugs (Hana Pharmacy) in Flushing. Call (718) 359-3373 to ask.",
+    metaDescription: `Free delivery, free consultation, blood pressure checks, fast prescriptions, copy and fax, notary public and DMV vision test at ${site.name} (${site.altName}) in Flushing. Call ${phone} to ask.`,
     eyebrow: "Services",
     title: "Services, as posted on our window",
-    lead: "Everything below is listed on the pharmacy's own storefront. Each item is being confirmed with the owner, so please call before you come in for a specific service.",
+    lead: "Everything below is posted on our own storefront. Please call before you come in for a specific service, so we can confirm it is available that day.",
     callToAsk: "Call to ask",
     rxTitle: "Prescriptions",
     rxEyebrow: "Transfer or refill",
@@ -92,10 +99,10 @@ const en = {
       "The story of Hana Pharmacy (Super Value Drugs) on Union Street in Flushing: an independent, Korean and English speaking pharmacy owned by Myeongha Jo since 2001.",
     eyebrow: "About",
     title: "The pharmacist who knows your name",
-    lead: "Super Value Drugs, known to the neighborhood as Hana Pharmacy 하나약국, is an independent pharmacy on Union Street in Flushing. It has been owned and run by the same family since 2001.",
+    lead: "Super Value Drugs, known to the neighborhood as Hana Pharmacy 하나약국, is an independent pharmacy on Union Street in Flushing. It has been owned and run by Myeongha Jo since 2001.",
     storyTitle: "How the pharmacy came to this corner",
     storyP1:
-      "In 2001 the Korean business district around Union Street was growing fast, but there was no pharmacy where customers could ask questions in Korean. Myeongha Jo noticed an older pharmacy, run by its Russian-Jewish owners, at the corner of the H Mart parking lot entrance. He thought it was the right place for a bilingual pharmacy, and he asked to buy it, even though he did not have the money.",
+      "In 2001 the blocks around Union Street were becoming a hub for Korean-American businesses. Myeongha Jo noticed an older pharmacy, run by its Russian-Jewish owners, at the corner of the H Mart parking lot entrance, and felt it was the right spot for a bilingual pharmacy. He asked to buy it even though he did not have the money.",
     storyP2:
       "The price was half a million dollars. A longtime member of his church lent part of it, the wholesaler lent part, and the sellers themselves financed the largest share because they believed he would succeed. Within five years every loan was repaid.",
     storyP3:
@@ -112,26 +119,25 @@ const en = {
     factAddress: "Address",
     communityTitle: "Rooted in the Korean community",
     communityText:
-      "The counter labels are color-coded in Korean, the pharmacist explains medicines in whichever language you prefer, and the window signs have carried 약 in orange for more than twenty years. Everyone is welcome; many of our neighbors simply find it easier to ask about their health in Korean.",
+      "The counter labels are color-coded in Korean, the pharmacist explains medicines in whichever language you prefer, and the orange 약 signs in the window say so before you walk in. Everyone is welcome; many of our neighbors simply find it easier to ask about their health in Korean.",
     locationTitle: "Where to find us",
     locationText:
       "We are on Union Street in downtown Flushing, at the corner of the H Mart parking lot entrance. Look for the green awning.",
     numbers: {
-      year: "2001",
-      yearLabel: "the year the pharmacy opened under its current owner",
+      year: since ? String(since) : "",
+      yearLabel: "Year the pharmacy opened under its current owner",
       years: "5",
-      yearsLabel: "years to repay every loan used to buy the store",
+      yearsLabel: "Years to repay every loan used to buy the store",
       one: "1",
-      oneLabel: "location, by choice, instead of a franchise",
+      oneLabel: "Location, by choice, instead of a franchise",
     },
   },
   contact: {
     metaTitle: "Find us | Super Value Drugs, Hana Pharmacy Flushing",
-    metaDescription:
-      "Super Value Drugs (Hana Pharmacy 하나약국) is at 29-26 Union Street, Flushing, NY 11354, at the H Mart parking lot entrance. Phone (718) 359-3373, fax (718) 321-8647.",
+    metaDescription: `${site.name} (${site.altName} ${site.koreanName}) is at ${fullAddress}, at the H Mart parking lot entrance. Phone ${phone}${faxEn}.`,
     eyebrow: "Find us",
     title: "Union Street, next to H Mart",
-    lead: "Call first for anything urgent. The phone is answered during opening hours, and the pharmacist can speak with you in English or Korean.",
+    lead: "Call first for anything urgent. The pharmacist can speak with you in English or Korean.",
     addressTitle: "Address",
     phoneTitle: "Phone",
     faxTitle: "Fax",
@@ -148,7 +154,7 @@ const en = {
     phoneTitle: "Call",
     hoursTitle: "Hours",
     pagesTitle: "Pages",
-    legal: "Hana Pharmacy Inc, trading as Super Value Drugs.",
+    legal: `Trading as ${site.name}.`,
     madeBy: "Made by Novus",
   },
   notFound: {
@@ -176,7 +182,7 @@ const ko: Dictionary = {
     about: "약국 소개",
     contact: "오시는 길",
     call: "전화",
-    callFull: "전화 (718) 359-3373",
+    callFull: `전화 ${phone}`,
     menuOpen: "메뉴 열기",
     menuClose: "메뉴 닫기",
     menuTitle: "메뉴",
@@ -188,12 +194,12 @@ const ko: Dictionary = {
     bilingual: "한국어와 영어로 상담",
   },
   confirm: {
-    badge: "확인 예정",
-    badgeAria: "약국과 확인 예정인 정보입니다",
+    badge: "확인 중",
+    badgeAria: "약국과 확인 중인 정보입니다",
     hoursNote:
-      "영업시간은 매장 간판을 기준으로 표시했으며 약국과 확인 중입니다. 일부러 방문하시기 전에 전화로 확인해 주세요.",
+      "영업시간은 매장 간판을 기준으로 표시했습니다. 일부러 방문하시기 전에 전화로 확인해 주세요.",
     servicesNote:
-      "아래 서비스는 약국 창문에 안내된 내용이며 대표님과 확인 중입니다. 특정 서비스를 위해 방문하시기 전에 전화로 가능 여부를 확인해 주세요.",
+      "위 서비스는 저희 약국 창문에 안내된 내용입니다. 특정 서비스를 위해 방문하시기 전에 전화로 가능 여부를 확인해 주세요.",
   },
   hours: {
     title: "영업시간",
@@ -202,19 +208,18 @@ const ko: Dictionary = {
   },
   home: {
     metaTitle: "하나약국 | Super Value Drugs, 뉴욕 플러싱",
-    metaDescription:
-      "플러싱 유니온 스트리트 29-26, H마트 주차장 입구에 있는 독립 동네 약국입니다. 처방약 조제와 건강 상담을 한국어와 영어로 도와드립니다. 전화 (718) 359-3373.",
-    eyebrow: "퀸즈 플러싱 · 유니온 스트리트 · 2001년부터",
+    metaDescription: `플러싱 유니온 스트리트 ${streetNumber}, H마트 주차장 입구에 있는 독립 동네 약국입니다. 처방약 조제와 건강 상담을 한국어와 영어로 도와드립니다. 전화 ${phone}.`,
+    eyebrow: `퀸즈 플러싱 · 유니온 스트리트${since ? ` · ${since}년부터` : ""}`,
     lead: "유니온 스트리트 H마트 주차장 입구 모퉁이에 있는 독립 약국입니다. 처방약 조제, 정직한 상담, 일상 건강 용품까지 한국어와 영어로 도와드립니다.",
-    photoCaption: "플러싱 유니온 스트리트 29-26",
+    photoCaption: `플러싱 유니온 스트리트 ${streetNumber}`,
     servicesTitle: "이런 일을 도와드립니다",
     servicesIntro:
-      "배달, 간단한 혈압 측정, 공증 도장, 처방약과 함께 사는 메트로카드까지. 작은 일도 여전히 직접 챙기는 약국입니다.",
+      "배달, 간단한 혈압 측정, 공증 도장, 복사와 팩스까지. 작은 일도 여전히 직접 챙기는 약국입니다.",
     servicesLink: "전체 서비스 보기",
     hoursTitle: "영업시간",
     findTitle: "오시는 길",
     findLead: "H마트 옆 녹색 차양을 찾으세요.",
-    storyEyebrow: "2001년부터",
+    storyEyebrow: since ? `${since}년부터` : "약국 이야기",
     storyTitle: "약속 위에 세운 약국",
     storyText:
       "2001년, 조명하 대표는 빌린 돈과 큰 신뢰로 이 모퉁이의 오래된 약국을 인수했고, 5년 안에 모든 빚을 갚았습니다. 20년이 넘은 지금도 약국은 여전히 독립 약국이고, 여전히 두 언어로 상담하며, 여전히 이 자리에 있습니다.",
@@ -224,11 +229,10 @@ const ko: Dictionary = {
   },
   services: {
     metaTitle: "서비스 | 하나약국 Super Value Drugs 플러싱",
-    metaDescription:
-      "플러싱 하나약국(Super Value Drugs)의 무료 배달, 무료 상담, 혈압 측정, 빠른 처방 조제, 복사 및 팩스, 공증, 메트로카드, DMV 시력검사 안내. 문의 (718) 359-3373.",
+    metaDescription: `플러싱 하나약국(${site.name})의 무료 배달, 무료 상담, 혈압 측정, 빠른 처방 조제, 복사 및 팩스, 공증, DMV 시력검사 안내. 문의 ${phone}.`,
     eyebrow: "서비스",
     title: "창문에 안내된 그대로의 서비스",
-    lead: "아래 내용은 모두 약국 매장에 직접 게시된 안내입니다. 각 항목은 대표님과 확인 중이니, 특정 서비스를 위해 방문하시기 전에 전화로 확인해 주세요.",
+    lead: "아래 내용은 모두 저희 약국 매장에 게시된 안내입니다. 특정 서비스를 위해 방문하시기 전에 그날 가능한지 전화로 확인해 주세요.",
     callToAsk: "전화로 문의",
     rxTitle: "처방약",
     rxEyebrow: "처방전 이관 및 리필",
@@ -250,17 +254,18 @@ const ko: Dictionary = {
       "플러싱 유니온 스트리트의 하나약국(Super Value Drugs) 이야기. 2001년부터 조명하 대표가 운영해 온, 한국어와 영어로 상담하는 독립 약국입니다.",
     eyebrow: "약국 소개",
     title: "이름을 기억하는 약사",
-    lead: "Super Value Drugs, 동네에서는 하나약국으로 불리는 이곳은 플러싱 유니온 스트리트의 독립 약국입니다. 2001년부터 같은 가족이 운영하고 있습니다.",
+    lead: "Super Value Drugs, 동네에서는 하나약국으로 불리는 이곳은 플러싱 유니온 스트리트의 독립 약국입니다. 2001년부터 조명하 대표가 운영하고 있습니다.",
     storyTitle: "약국이 이 모퉁이에 오기까지",
     storyP1:
-      "2001년, 유니온 스트리트 주변의 한인 상권은 빠르게 커지고 있었지만 한국어로 질문할 수 있는 약국은 없었습니다. 조명하 대표는 H마트 주차장 입구 모퉁이에서 러시아계 유대인 부부가 운영하던 오래된 약국을 눈여겨보았습니다. 두 언어로 상담하는 약국에 꼭 맞는 자리라고 생각했고, 돈이 없는데도 인수 의사를 밝혔습니다.",
+      "2001년, 유니온 스트리트 주변은 한인 상권의 중심지로 커지고 있었습니다. 조명하 대표는 H마트 주차장 입구 모퉁이에서 러시아계 유대인 주인들이 운영하던 오래된 약국을 눈여겨보았고, 두 언어로 상담하는 약국에 꼭 맞는 자리라고 생각했습니다. 돈이 없는데도 인수 의사를 밝혔습니다.",
     storyP2:
-      "가격은 50만 달러였습니다. 오랜 교회 교인이 일부를, 도매상이 일부를 빌려주었고, 가장 큰 몫은 그가 성공할 것이라고 믿은 전 주인 부부가 직접 융자해 주었습니다. 5년 안에 모든 빚을 갚았습니다.",
+      "가격은 50만 달러였습니다. 오랜 교회 교인이 일부를, 도매상이 일부를 빌려주었고, 가장 큰 몫은 그가 성공할 것이라고 믿은 전 주인들이 직접 융자해 주었습니다. 5년 안에 모든 빚을 갚았습니다.",
     storyP3:
       "이후 프랜차이즈로 키우는 것도 고민했지만 그렇게 하지 않기로 했습니다. 이 한 곳의 카운터를 지키며 가족과 지역사회, 환자에게 시간을 쓰기로 한 것입니다. 그 선택이 지금도 이 약국의 성격입니다.",
-    storyAttribution: "전체 이야기는",
+    storyAttribution:
+      "전체 이야기는 뉴욕한인봉사센터(KCS)와 함께 만든 HAN IN TOWN 특집 기사에서 읽으실 수 있습니다:",
     storyAttributionLink: "HAN IN TOWN의 하나약국 특집 기사",
-    storyAttributionTail: "에 실려 있습니다. 뉴욕한인봉사센터(KCS)와 함께 만든 프로젝트입니다.",
+    storyAttributionTail: "",
     factsTitle: "한눈에 보기",
     factOwner: "대표",
     factEstablished: "설립",
@@ -270,12 +275,12 @@ const ko: Dictionary = {
     factAddress: "주소",
     communityTitle: "한인 커뮤니티에 뿌리를 둔 약국",
     communityText:
-      "카운터의 라벨은 한글로 색상별로 구분되어 있고, 약사는 원하시는 언어로 약을 설명해 드리며, 창문의 주황색 약 간판은 20년 넘게 같은 자리에 있습니다. 누구나 환영합니다. 다만 많은 이웃분들이 건강 이야기는 한국어로 하는 것이 더 편하다고 하십니다.",
+      "카운터의 라벨은 한글로 색상별로 구분되어 있고, 약사는 원하시는 언어로 약을 설명해 드리며, 창문의 주황색 약 간판이 들어오시기 전부터 그 사실을 알려 줍니다. 누구나 환영합니다. 다만 많은 이웃분들이 건강 이야기는 한국어로 하는 것이 더 편하다고 하십니다.",
     locationTitle: "오시는 길",
     locationText:
       "플러싱 다운타운 유니온 스트리트, H마트 주차장 입구 모퉁이에 있습니다. 녹색 차양을 찾으세요.",
     numbers: {
-      year: "2001",
+      year: since ? String(since) : "",
       yearLabel: "현재 대표가 약국 운영을 시작한 해",
       years: "5",
       yearsLabel: "약국 인수에 쓴 모든 빚을 갚는 데 걸린 햇수",
@@ -285,11 +290,10 @@ const ko: Dictionary = {
   },
   contact: {
     metaTitle: "오시는 길 | 하나약국 Super Value Drugs 플러싱",
-    metaDescription:
-      "하나약국(Super Value Drugs)은 뉴욕 플러싱 유니온 스트리트 29-26 (우편번호 11354), H마트 주차장 입구에 있습니다. 전화 (718) 359-3373, 팩스 (718) 321-8647.",
+    metaDescription: `하나약국(${site.name})은 뉴욕 플러싱 유니온 스트리트 ${streetNumber} (우편번호 ${site.address.zip}), H마트 주차장 입구에 있습니다. 전화 ${phone}${faxKo}.`,
     eyebrow: "오시는 길",
     title: "유니온 스트리트, H마트 바로 옆",
-    lead: "급한 일은 먼저 전화해 주세요. 영업시간에는 전화를 받으며, 약사가 한국어 또는 영어로 상담해 드립니다.",
+    lead: "급한 일은 먼저 전화해 주세요. 약사가 한국어 또는 영어로 상담해 드립니다.",
     addressTitle: "주소",
     phoneTitle: "전화",
     faxTitle: "팩스",
@@ -306,7 +310,7 @@ const ko: Dictionary = {
     phoneTitle: "전화",
     hoursTitle: "영업시간",
     pagesTitle: "페이지",
-    legal: "Hana Pharmacy Inc (상호: Super Value Drugs).",
+    legal: `상호: ${site.name}.`,
     madeBy: "Made by Novus",
   },
   notFound: {

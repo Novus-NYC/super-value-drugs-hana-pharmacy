@@ -7,7 +7,6 @@ export type ServiceIcon =
   | "rx"
   | "fax"
   | "notary"
-  | "metrocard"
   | "eye"
   | "vaccine";
 
@@ -31,10 +30,15 @@ export interface Service {
 const poster = "Storefront window poster";
 
 /**
- * Exactly the window poster list, plus "ask about vaccines" (public Medicare
- * claims data shows flu shot administration, so the site invites the question
- * rather than listing an immunization menu). Insurance plans are deliberately
- * not listed; the services page only invites visitors to ask.
+ * The window poster list, plus "ask about vaccines" (public Medicare claims
+ * data shows flu shot administration, so the site invites the question rather
+ * than listing an immunization menu). Insurance plans are deliberately not
+ * listed; the services page only invites visitors to ask.
+ *
+ * Left out on purpose: "MetroCard sold here" from the poster. The MTA stopped
+ * selling MetroCards at the end of 2025, so the item is not shown until the
+ * owner confirms what is sold now (MetroCard or OMNY cards). It is an open
+ * item in BUILD_NOTES.md; add it back here with its own icon if confirmed.
  */
 export const services: Service[] = [
   {
@@ -46,8 +50,8 @@ export const services: Service[] = [
       ko: "처방약을 무료로 댁까지 배달해 드립니다.",
     },
     description: {
-      en: "The window poster lists free deliveries. Call to ask whether your address is covered and when a delivery can be made. Have your name and the prescription ready so the pharmacy can confirm it quickly.",
-      ko: "매장 안내문에 무료 배달이 안내되어 있습니다. 배달 가능 지역과 시간은 전화로 문의해 주세요. 성함과 처방 내용을 미리 준비하시면 빠르게 확인해 드릴 수 있습니다.",
+      en: "Call to ask whether your address is covered and when a delivery can be made. Have your name and the prescription ready so we can confirm it quickly.",
+      ko: "배달 가능 지역과 시간은 전화로 문의해 주세요. 성함과 처방 내용을 미리 준비하시면 빠르게 확인해 드릴 수 있습니다.",
     },
     confirmed: false,
     source: poster,
@@ -115,7 +119,7 @@ export const services: Service[] = [
   {
     id: "notary",
     icon: "notary",
-    name: { en: "Notary public", ko: "공증 (노터리)" },
+    name: { en: "Notary public", ko: "공증(노터리)" },
     short: {
       en: "Documents notarized in the neighborhood.",
       ko: "동네에서 서류 공증을 받으실 수 있습니다.",
@@ -123,21 +127,6 @@ export const services: Service[] = [
     description: {
       en: "Notary public services for documents that need a witnessed signature. Bring valid photo identification and the unsigned document. Call first to check that a notary is in that day.",
       ko: "서명 공증이 필요한 서류를 위한 노터리 서비스입니다. 유효한 사진 신분증과 서명하지 않은 서류를 가져오세요. 당일 공증 가능 여부는 먼저 전화로 확인해 주세요.",
-    },
-    confirmed: false,
-    source: poster,
-  },
-  {
-    id: "metrocard",
-    icon: "metrocard",
-    name: { en: "MetroCard sold here", ko: "메트로카드 판매" },
-    short: {
-      en: "Pick up a MetroCard with your prescription.",
-      ko: "처방약을 찾으면서 메트로카드도 구입하세요.",
-    },
-    description: {
-      en: "MetroCards are sold at the counter, so you can take care of your fare on the same trip. Ask which cards are in stock.",
-      ko: "카운터에서 메트로카드를 판매하므로 약국에 오신 김에 교통카드도 해결하실 수 있습니다. 재고가 있는 카드 종류는 문의해 주세요.",
     },
     confirmed: false,
     source: poster,
@@ -166,8 +155,8 @@ export const services: Service[] = [
       ko: "독감 예방접종 등 접종 가능한 백신은 전화로 문의해 주세요.",
     },
     description: {
-      en: "The pharmacy has given flu shots in past seasons. Which vaccines are available changes through the year, so call to ask what is in stock, whether you need an appointment, and what to bring.",
-      ko: "이 약국은 과거 독감 예방접종을 시행한 적이 있습니다. 접종 가능한 백신은 시기에 따라 달라지므로 재고, 예약 필요 여부, 준비물을 전화로 문의해 주세요.",
+      en: "We have given flu shots in past seasons. Which vaccines are available changes through the year, so call to ask what is in stock, whether you need an appointment, and what to bring.",
+      ko: "저희 약국은 과거 독감 예방접종을 시행한 적이 있습니다. 접종 가능한 백신은 시기에 따라 달라지므로 재고, 예약 필요 여부, 준비물을 전화로 문의해 주세요.",
     },
     confirmed: false,
     source: "Public Medicare claims data (influenza vaccine administration); door sign for COVID-19 vaccine",

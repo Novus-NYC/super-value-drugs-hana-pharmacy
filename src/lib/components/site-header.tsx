@@ -16,7 +16,7 @@ interface SiteHeaderProps {
 const DESKTOP_QUERY = "(min-width: 1024px)";
 
 /** Everything outside the menu panel that must not take focus while it is open. */
-const INERT_SELECTOR = "header, main, footer, [data-callbar]";
+const INERT_SELECTOR = "header, main, footer, [data-callbar], [data-skip]";
 
 function setPageInert(on: boolean) {
   document.querySelectorAll<HTMLElement>(INERT_SELECTOR).forEach((el) => {
